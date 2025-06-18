@@ -10,7 +10,7 @@ import java.io.IOException;
 
 @WebServlet("/loginAdmin")
 public class LoginAdminServlet extends HttpServlet {
-     @Override
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -28,7 +28,9 @@ public class LoginAdminServlet extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
 
-                // ✅ CHỈNH Ở ĐÂY
+                // ✅ Gửi popup thành công
+                session.setAttribute("loginSuccess", "Đăng nhập admin thành công!");
+
                 response.sendRedirect(request.getContextPath() + "/user-list");
             }
         } else {

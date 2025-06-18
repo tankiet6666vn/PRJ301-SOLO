@@ -70,6 +70,19 @@ public class UserDAO extends BaseDao {
         }
         return false;
     }
+    public boolean existsByUsername(String username) {
+    String sql = "SELECT 1 FROM Users WHERE Username = ?";
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setString(1, username);
+        try (ResultSet rs = ps.executeQuery()) {
+            return rs.next();
+        }
+    } catch (SQLException e) {
+        System.err.println("❌ Lỗi kiểm tra username: " + e.getMessage());
+    }
+    return false;
+}
+
 
     // Kiểm tra câu hỏi bảo mật
     public User checkSecurity(String username, String question, String answer) {
@@ -126,5 +139,33 @@ public class UserDAO extends BaseDao {
     }
     return list;
 }
+ public boolean updateUserProfile(User user) {
+    String sql = "UPDATE Users SET FullName = ?, Email = ? WHERE UserID = ?";
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setString(1, user.getFullName());
+        ps.setString(2, user.getEmail());
+        ps.setInt(3, user.getUserID());
+        return ps.executeUpdate() > 0;
+    } catch (SQLException e) {
+        System.err.println("❌ Lỗi updateUserProfile: " + e.getMessage());
+        return false;
+    }
+}
+ public boolean isEmailTakenByOthers(int userId, String email) {
+    String sql = "SELECT 1 FROM Users WHERE Email = ? AND UserID != ?";
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setString(1, email);
+        ps.setInt(2, userId);
+        try (ResultSet rs = ps.executeQuery()) {
+            return rs.next();
+        }
+    } catch (SQLException e) {
+        System.err.println("Lỗi kiểm tra email: " + e.getMessage());
+    }
+    return false;
+}
+
+
+
 
 }

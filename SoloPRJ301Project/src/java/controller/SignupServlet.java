@@ -17,27 +17,37 @@ public class SignupServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         String fullName = request.getParameter("fullName");
+        String username = request.getParameter("username");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String securityQuestion = request.getParameter("securityQuestion");
         String securityAnswer = request.getParameter("securityAnswer");
 
         int departmentID = 1; // mặc định
-        int roleID = 3; // user thường
-        String username = email; // dùng email làm username
+        int roleID = 3;       // user thường
 
         UserDAO userDao = new UserDAO();
 
+        // Kiểm tra email đã tồn tại
         if (userDao.existsByEmail(email)) {
             request.setAttribute("errorMessage", "Email đã tồn tại!");
             request.getRequestDispatcher("/view/signup.jsp").forward(request, response);
             return;
         }
 
+        // Kiểm tra username đã tồn tại
+        if (userDao.existsByUsername(username)) {
+            request.setAttribute("errorMessage", "Username đã tồn tại!");
+            request.getRequestDispatcher("/view/signup.jsp").forward(request, response);
+            return;
+        }
+
+        // Tạo user mới
         User newUser = new User(username, password, fullName, email, departmentID, roleID);
         newUser.setSecurityQuestion(securityQuestion);
         newUser.setSecurityAnswer(securityAnswer);
 
+        // Thêm vào database
         if (userDao.insert(newUser)) {
             request.setAttribute("successMessage", "Đăng ký thành công! Hãy đăng nhập.");
         } else {

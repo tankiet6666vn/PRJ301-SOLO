@@ -12,6 +12,26 @@
         <servlet-name>SubmitLeaveServlet</servlet-name>
         <servlet-class>controller.SubmitLeaveServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MyLeaveServlet</servlet-name>
+        <servlet-class>controller.MyLeaveServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateProfileServlet</servlet-name>
+        <servlet-class>controller.UpdateProfileServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>controller.LogoutServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AdminLeaveListServlet</servlet-name>
+        <servlet-class>controller.AdminLeaveListServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ApproveLeaveServlet</servlet-name>
+        <servlet-class>controller.ApproveLeaveServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserListServlet</servlet-name>
         <url-pattern>/UserListServlet</url-pattern>
@@ -23,5 +43,25 @@
     <servlet-mapping>
         <servlet-name>SubmitLeaveServlet</servlet-name>
         <url-pattern>/SubmitLeaveServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MyLeaveServlet</servlet-name>
+        <url-pattern>/MyLeaveServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateProfileServlet</servlet-name>
+        <url-pattern>/UpdateProfileServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/LogoutServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminLeaveListServlet</servlet-name>
+        <url-pattern>/AdminLeaveListServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ApproveLeaveServlet</servlet-name>
+        <url-pattern>/ApproveLeaveServlet</url-pattern>
     </servlet-mapping>
 </web-app>

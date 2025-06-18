@@ -25,15 +25,16 @@ public class LoginServlet extends HttpServlet {
 
         if (user != null) {
             if (user.getRoleID() != 3) {
-                // Nếu không phải user thường thì không được đăng nhập trang user
                 request.setAttribute("errorMessage", "Tài khoản này không được phép truy cập trang người dùng.");
                 request.getRequestDispatcher("/view/Login.jsp").forward(request, response);
                 return;
             }
 
-            // Nếu là user thường, cho đăng nhập
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
+
+            // ✅ Gửi thông báo đăng nhập thành công sang Menu.jsp
+            session.setAttribute("loginSuccess", "Chào mừng " + user.getFullName() + "!");
             response.sendRedirect("view/Menu.jsp");
         } else {
             request.setAttribute("errorMessage", "Sai email hoặc mật khẩu.");
@@ -41,3 +42,4 @@ public class LoginServlet extends HttpServlet {
         }
     }
 }
+

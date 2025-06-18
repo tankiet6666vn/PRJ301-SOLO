@@ -20,12 +20,10 @@
                         <div class="card-body">
                             <h4 class="text-center">Sign Up</h4>
 
-                            <!-- Hiển thị thông báo thành công -->
                             <c:if test="${not empty successMessage}">
                                 <div class="alert alert-success text-center mt-3">${successMessage}</div>
                             </c:if>
 
-                            <!-- Hiển thị thông báo lỗi -->
                             <c:if test="${not empty errorMessage}">
                                 <div class="alert alert-danger text-center mt-3">${errorMessage}</div>
                             </c:if>
@@ -36,6 +34,13 @@
                                         <div class="mb-3">
                                             <label class="form-label">Full Name <span class="text-danger">*</span></label>
                                             <input type="text" class="form-control" name="fullName" placeholder="Full Name" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Username <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" name="username" placeholder="Username" required>
                                         </div>
                                     </div>
 
