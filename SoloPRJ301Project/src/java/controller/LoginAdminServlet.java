@@ -10,7 +10,7 @@ import java.io.IOException;
 
 @WebServlet("/loginAdmin")
 public class LoginAdminServlet extends HttpServlet {
-    @Override
+     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -22,17 +22,16 @@ public class LoginAdminServlet extends HttpServlet {
 
         if (user != null) {
             if (user.getRoleID() == 3) {
-                // Không cho user thường vào admin
                 request.setAttribute("errorMessage", "Bạn không có quyền truy cập trang admin!");
                 request.getRequestDispatcher("/view/LoginAdmin.jsp").forward(request, response);
             } else {
-                // Đăng nhập thành công, lưu session và chuyển hướng
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
-                response.sendRedirect(request.getContextPath() + "/view/AdminDashboard.jsp");
+
+                // ✅ CHỈNH Ở ĐÂY
+                response.sendRedirect(request.getContextPath() + "/user-list");
             }
         } else {
-            // Sai tài khoản hoặc mật khẩu
             request.setAttribute("errorMessage", "Sai email hoặc mật khẩu!");
             request.getRequestDispatcher("/view/LoginAdmin.jsp").forward(request, response);
         }

@@ -1,0 +1,118 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="model.User"%>
+
+<%
+    User user = (User) session.getAttribute("user");
+    if (user == null || user.getRoleID() != 3) {
+        response.sendRedirect("Login.jsp");
+        return;
+    }
+%>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Gửi đơn nghỉ phép</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to right, #e3f2fd, #f8f9fa);
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .card {
+            border-radius: 1rem;
+            box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            background: #0d6efd;
+            color: white;
+            border-top-left-radius: 1rem;
+            border-top-right-radius: 1rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            border: none;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        .alert {
+            border-radius: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7 col-md-9">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h4><i class="bi bi-pencil-square me-2"></i>Đơn xin nghỉ phép</h4>
+                </div>
+                <div class="card-body">
+                    <form action="submit-leave" method="post">
+                        <div class="mb-3">
+                            <label class="form-label">👤 Nhân viên</label>
+                            <input type="text" class="form-control" value="<%= user.getFullName() %>" readonly>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">📌 Loại nghỉ phép</label>
+                            <select name="leaveTypeID" class="form-select" required>
+                                <option value="">-- Chọn loại --</option>
+                                <option value="1">Nghỉ phép năm</option>
+                                <option value="2">Nghỉ không lương</option>
+                                <option value="3">Nghỉ ốm</option>
+                                <option value="4">Nghỉ thai sản</option>
+                                <option value="5">Nghỉ việc riêng</option>
+                                <option value="6">Nghỉ công tác</option>
+                            </select>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">📅 Từ ngày</label>
+                                <input type="date" name="startDate" class="form-control" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">📅 Đến ngày</label>
+                                <input type="date" name="endDate" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">📝 Lý do nghỉ</label>
+                            <textarea name="reason" class="form-control" rows="3" placeholder="Nhập lý do cụ thể..." required></textarea>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success">📤 Gửi đơn</button>
+                        </div>
+
+                        <%
+                            String error = (String) request.getAttribute("errorMessage");
+                            if (error != null) {
+                        %>
+                        <div class="alert alert-danger text-center mt-3"><%= error %></div>
+                        <% } %>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

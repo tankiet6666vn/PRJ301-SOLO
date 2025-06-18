@@ -3,6 +3,8 @@ package dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import model.User;
 
 public class UserDAO extends BaseDao {
@@ -12,7 +14,7 @@ public class UserDAO extends BaseDao {
         String sql = "SELECT * FROM Users WHERE Email = ? AND PasswordHash = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, email);
-            ps.setString(2, password); // Hash nếu cần
+            ps.setString(2, password);
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -36,7 +38,7 @@ public class UserDAO extends BaseDao {
         return null;
     }
 
-    // Đăng ký người dùng mới
+    // Thêm người dùng mới
     public boolean insert(User user) {
         String sql = "INSERT INTO Users (Username, PasswordHash, FullName, Email, DepartmentID, RoleID, SecurityQuestion, SecurityAnswer) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -48,7 +50,6 @@ public class UserDAO extends BaseDao {
             ps.setInt(6, user.getRoleID());
             ps.setString(7, user.getSecurityQuestion());
             ps.setString(8, user.getSecurityAnswer());
-
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             System.err.println("❌ Lỗi insert User: " + e.getMessage());
@@ -56,19 +57,22 @@ public class UserDAO extends BaseDao {
         }
     }
 
-   public boolean existsByEmail(String email) {
+    // Kiểm tra email tồn tại
+    public boolean existsByEmail(String email) {
         String sql = "SELECT 1 FROM Users WHERE Email = ?";
         try (PreparedStatement ps = this.connection.prepareStatement(sql)) {
             ps.setString(1, email);
             try (ResultSet rs = ps.executeQuery()) {
-                return rs.next(); // nếu có dòng nào thì email đã tồn tại
+                return rs.next();
             }
         } catch (SQLException e) {
-            System.err.println("Lỗi khi kiểm tra email: " + e.getMessage());
+            System.err.println("❌ Lỗi kiểm tra email: " + e.getMessage());
         }
         return false;
     }
-   public User checkSecurity(String username, String question, String answer) {
+
+    // Kiểm tra câu hỏi bảo mật
+    public User checkSecurity(String username, String question, String answer) {
         String sql = "SELECT * FROM Users WHERE Username = ? AND SecurityQuestion = ? AND SecurityAnswer = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, username);
@@ -94,7 +98,33 @@ public class UserDAO extends BaseDao {
         return null;
     }
 
-
-
+    // Lấy danh sách tất cả người dùng kèm RoleName & DepartmentName
+ public List<User> getAllUsers() {
+    List<User> list = new ArrayList<>();
+    String sql = "SELECT u.*, d.DepartmentName, r.RoleName " +
+                 "FROM Users u " +
+                 "JOIN Departments d ON u.DepartmentID = d.DepartmentID " +
+                 "JOIN Roles r ON u.RoleID = r.RoleID";
+    try (PreparedStatement ps = connection.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+        while (rs.next()) {
+            User user = new User(
+                rs.getInt("UserID"),
+                rs.getString("Username"),
+                rs.getString("PasswordHash"),
+                rs.getString("FullName"),
+                rs.getString("Email"),
+                rs.getInt("DepartmentID"),
+                rs.getInt("RoleID")
+            );
+            user.setDepartmentName(rs.getString("DepartmentName"));
+            user.setRoleName(rs.getString("RoleName"));
+            list.add(user);
+        }
+    } catch (SQLException e) {
+        System.err.println("Lỗi getAllUsers: " + e.getMessage());
+    }
+    return list;
+}
 
 }

@@ -11,12 +11,12 @@ public class User {
     private int roleID;
     private String securityQuestion;
     private String securityAnswer;
+    private String departmentName; 
+    private String roleName;       
 
-    // Constructor mặc định
     public User() {
     }
 
-    // Constructor đầy đủ (dùng khi load từ DB)
     public User(int userID, String username, String passwordHash, String fullName, String email, int departmentID, int roleID) {
         this.userID = userID;
         this.username = username;
@@ -27,7 +27,6 @@ public class User {
         this.roleID = roleID;
     }
 
-    // Constructor khi đăng ký (ID tự tăng nên không cần truyền)
     public User(String username, String passwordHash, String fullName, String email, int departmentID, int roleID) {
         this.username = username;
         this.passwordHash = passwordHash;
@@ -53,7 +52,6 @@ public class User {
         this.securityAnswer = securityAnswer;
     }
 
-    // Getters và Setters
     public int getUserID() {
         return userID;
     }
@@ -108,5 +106,21 @@ public class User {
 
     public void setRoleID(int roleID) {
         this.roleID = roleID;
+    }
+
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 }
