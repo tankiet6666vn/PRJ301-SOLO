@@ -5,27 +5,35 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import model.LeaveRequest;
+import model.User;
 
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/admin-leave-list")
-public class AdminLeaveListServlet extends HttpServlet {
+@WebServlet("/manager-leave-list")
+public class ManagerLeaveListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
 
+        HttpSession session = request.getSession();
+        User manager = (User) session.getAttribute("user");
+
+        if (manager == null || manager.getRoleID() != 2) {
+            response.sendRedirect("Login.jsp");
+            return;
+        }
+
+        int departmentId = manager.getDepartmentID();
         LeaveRequestDAO dao = new LeaveRequestDAO();
-        List<LeaveRequest> allRequests = dao.getAllRequests();
+        List<LeaveRequest> allRequests = dao.getRequestsByDepartment(departmentId);
 
-        // Xử lý phân trang
+        // Phân trang
         int page = 1;
         int recordsPerPage = 10;
-
-        String pageParam = request.getParameter("page");
-        if (pageParam != null) {
+        if (request.getParameter("page") != null) {
             try {
-                page = Integer.parseInt(pageParam);
+                page = Integer.parseInt(request.getParameter("page"));
             } catch (NumberFormatException e) {
                 page = 1;
             }
@@ -43,13 +51,20 @@ public class AdminLeaveListServlet extends HttpServlet {
         request.setAttribute("totalPages", totalPages);
 
         // Thông báo nếu có
-        HttpSession session = request.getSession();
         String success = (String) session.getAttribute("success");
         if (success != null) {
             request.setAttribute("success", success);
             session.removeAttribute("success");
         }
 
-        request.getRequestDispatcher("view/AdminLeaveList.jsp").forward(request, response);
+        String error = (String) session.getAttribute("error");
+        if (error != null) {
+            request.setAttribute("error", error);
+            session.removeAttribute("error");
+        }
+
+        request.getRequestDispatcher("view/ManagerLeaveList.jsp").forward(request, response);
     }
 }
+
+

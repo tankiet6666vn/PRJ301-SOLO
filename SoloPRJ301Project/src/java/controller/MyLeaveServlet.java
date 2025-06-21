@@ -15,16 +15,40 @@ public class MyLeaveServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
-        User user = (User) request.getSession().getAttribute("user");
+
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
         if (user == null || user.getRoleID() != 3) {
             response.sendRedirect("Login.jsp");
             return;
         }
 
         LeaveRequestDAO dao = new LeaveRequestDAO();
-        List<LeaveRequest> requests = dao.getByUser(user.getUserID());
+        List<LeaveRequest> allRequests = dao.getByUser(user.getUserID());
 
-        request.setAttribute("requests", requests);
+        int page = 1;
+        int recordsPerPage = 10;
+
+        String pageParam = request.getParameter("page");
+        if (pageParam != null) {
+            try {
+                page = Integer.parseInt(pageParam);
+            } catch (NumberFormatException e) {
+                page = 1;
+            }
+        }
+
+        int totalRecords = allRequests.size();
+        int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
+        int start = (page - 1) * recordsPerPage;
+        int end = Math.min(start + recordsPerPage, totalRecords);
+
+        List<LeaveRequest> paginatedRequests = allRequests.subList(start, end);
+
+        request.setAttribute("requests", paginatedRequests);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("totalPages", totalPages);
+
         request.getRequestDispatcher("view/MyLeave.jsp").forward(request, response);
     }
 }

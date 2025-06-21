@@ -10,6 +10,7 @@ import java.io.IOException;
 
 @WebServlet("/submit-leave")
 public class SubmitLeaveServlet extends HttpServlet {
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -33,8 +34,9 @@ public class SubmitLeaveServlet extends HttpServlet {
             boolean success = dao.insertLeaveRequest(user.getUserID(), leaveTypeID, startDate, endDate, reason);
 
             if (success) {
-                request.setAttribute("successMessage", "🎉 Gửi đơn nghỉ phép thành công!");
-                request.getRequestDispatcher("view/Menu.jsp").forward(request, response);
+                request.setAttribute("success", "🎉 Gửi đơn nghỉ phép thành công!");
+                request.getRequestDispatcher("view/RequestLeave.jsp").forward(request, response);
+
             } else {
                 request.setAttribute("errorMessage", "Gửi đơn thất bại. Vui lòng thử lại.");
                 request.getRequestDispatcher("view/RequestLeave.jsp").forward(request, response);

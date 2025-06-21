@@ -21,21 +21,23 @@ public class LoginAdminServlet extends HttpServlet {
         User user = dao.checkLogin(email, password);
 
         if (user != null) {
-            if (user.getRoleID() == 3) {
+            HttpSession session = request.getSession();
+            session.setAttribute("user", user);
+
+            // ✅ Điều hướng theo vai trò
+            if (user.getRoleID() == 1) {
+                response.sendRedirect(request.getContextPath() + "/user-list"); // Admin
+            } else if (user.getRoleID() == 2) {
+                response.sendRedirect(request.getContextPath() + "/view/MenuManager.jsp");
+            } else {
                 request.setAttribute("errorMessage", "Bạn không có quyền truy cập trang admin!");
                 request.getRequestDispatcher("/view/LoginAdmin.jsp").forward(request, response);
-            } else {
-                HttpSession session = request.getSession();
-                session.setAttribute("user", user);
-
-                // ✅ Gửi popup thành công
-                session.setAttribute("loginSuccess", "Đăng nhập admin thành công!");
-
-                response.sendRedirect(request.getContextPath() + "/user-list");
             }
+
         } else {
             request.setAttribute("errorMessage", "Sai email hoặc mật khẩu!");
             request.getRequestDispatcher("/view/LoginAdmin.jsp").forward(request, response);
         }
     }
 }
+

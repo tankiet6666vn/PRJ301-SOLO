@@ -1,5 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="model.User"%>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 <%
     User user = (User) session.getAttribute("user");
@@ -7,6 +9,8 @@
         response.sendRedirect("Login.jsp");
         return;
     }
+    String success = (String) request.getAttribute("success");
+    String error = (String) request.getAttribute("errorMessage");
 %>
 
 <!DOCTYPE html>
@@ -16,6 +20,7 @@
     <title>Gửi đơn nghỉ phép</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
             background: linear-gradient(to right, #e3f2fd, #f8f9fa);
@@ -101,18 +106,36 @@
                             <button type="submit" class="btn btn-success">📤 Gửi đơn</button>
                         </div>
 
-                        <%
-                            String error = (String) request.getAttribute("errorMessage");
-                            if (error != null) {
-                        %>
-                        <div class="alert alert-danger text-center mt-3"><%= error %></div>
+                        <% if (error != null) { %>
+                            <div class="alert alert-danger text-center mt-3"><%= error %></div>
                         <% } %>
+                        
+                         <div class="text-center mt-4">
+                        <a href="<%= request.getContextPath() %>/view/Menu.jsp" class="btn btn-secondary">
+                            ← Quay lại menu
+                        </a>
+                    </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- ✅ SweetAlert popup khi gửi đơn thành công -->
+<% if (success != null) { %>
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Thành công!',
+        text: '<%= success %>',
+        confirmButtonColor: '#3085d6',
+        timer: 2500,
+        showConfirmButton: false
+    });
+</script>
+<% } %>
+
 
 </body>
 </html>

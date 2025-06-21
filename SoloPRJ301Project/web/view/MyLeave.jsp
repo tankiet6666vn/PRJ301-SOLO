@@ -81,6 +81,23 @@
                         <% } %>
                         </tbody>
                     </table>
+                        <%-- Phân trang --%>
+<div class="d-flex justify-content-center mt-3">
+    <nav>
+        <ul class="pagination">
+            <% 
+                int currentPage = (Integer) request.getAttribute("currentPage");
+                int totalPages = (Integer) request.getAttribute("totalPages");
+                for (int i = 1; i <= totalPages; i++) { 
+            %>
+                <li class="page-item <%= i == currentPage ? "active" : "" %>">
+                    <a class="page-link" href="my-leave?page=<%= i %>"><%= i %></a>
+                </li>
+            <% } %>
+        </ul>
+    </nav>
+</div>
+
                 </div>
             <% } %>
 

@@ -4,6 +4,7 @@ import dao.LeaveRequestDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
+import model.User;
 
 import java.io.IOException;
 
@@ -11,26 +12,48 @@ import java.io.IOException;
 public class ApproveLeaveServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
 
-        int requestID = Integer.parseInt(request.getParameter("requestID"));
-        String action = request.getParameter("action");
+        HttpSession session = request.getSession();
+        User approver = (User) session.getAttribute("user");
 
-        LeaveRequestDAO dao = new LeaveRequestDAO();
-        boolean updated = false;
-
-        if ("approve".equals(action)) {
-            updated = dao.updateStatus(requestID, "Approved");
-        } else if ("reject".equals(action)) {
-            updated = dao.updateStatus(requestID, "Rejected");
+        if (approver == null || approver.getRoleID() == 3) {
+            response.sendRedirect("Login.jsp");
+            return;
         }
 
-        if (updated) {
-            HttpSession session = request.getSession();
-            session.setAttribute("success", "Cập nhật trạng thái đơn thành công!");
-        }
+        try {
+            int requestID = Integer.parseInt(request.getParameter("requestID"));
+            String action = request.getParameter("action");
 
-        response.sendRedirect("admin-leave-list");
+            String status = "Pending";
+            if ("approve".equalsIgnoreCase(action)) {
+                status = "Approved";
+            } else if ("reject".equalsIgnoreCase(action)) {
+                status = "Rejected";
+            }
+
+            LeaveRequestDAO dao = new LeaveRequestDAO();
+            boolean updated = dao.updateRequestStatus(requestID, status, approver.getUserID());
+
+            // ✅ Gán thông báo nếu cần
+            if (updated) {
+                session.setAttribute("success", "Cập nhật trạng thái thành công!");
+            } else {
+                session.setAttribute("error", "Không thể cập nhật trạng thái.");
+            }
+
+            // ✅ CHUYỂN LẠI TRANG DỰA VÀO ROLE
+            if (approver.getRoleID() == 1) {
+                response.sendRedirect(request.getContextPath() + "/admin-leave-list");
+            } else if (approver.getRoleID() == 2) {
+                response.sendRedirect(request.getContextPath() + "/manager-leave-list");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.setAttribute("error", "Lỗi xử lý đơn nghỉ!");
+            response.sendRedirect(request.getContextPath() + "/manager-leave-list");
+        }
     }
 }
-

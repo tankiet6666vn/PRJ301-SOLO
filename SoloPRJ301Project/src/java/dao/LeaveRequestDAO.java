@@ -105,5 +105,38 @@ public boolean updateStatus(int requestID, String status) {
         return false;
     }
 }
+// Lấy danh sách đơn nghỉ thuộc phòng ban của manager
+public List<LeaveRequest> getRequestsByDepartment(int departmentId) {
+    List<LeaveRequest> list = new ArrayList<>();
+    String sql = "SELECT lr.*, u.FullName, lt.TypeName FROM LeaveRequests lr " +
+                 "JOIN Users u ON lr.UserID = u.UserID " +
+                 "JOIN LeaveTypes lt ON lr.LeaveTypeID = lt.LeaveTypeID " +
+                 "WHERE u.DepartmentID = ? ORDER BY lr.RequestDate DESC";
+
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setInt(1, departmentId);
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                LeaveRequest r = new LeaveRequest();
+                r.setRequestID(rs.getInt("RequestID"));
+                r.setUserID(rs.getInt("UserID"));
+                r.setFullName(rs.getString("FullName"));
+                r.setLeaveTypeName(rs.getString("TypeName"));
+                r.setStartDate(rs.getDate("StartDate").toString());
+                r.setEndDate(rs.getDate("EndDate").toString());
+                r.setReason(rs.getString("Reason"));
+                r.setStatus(rs.getString("Status"));
+                r.setRequestDate(rs.getTimestamp("RequestDate"));
+                list.add(r);
+            }
+        }
+    } catch (SQLException e) {
+        System.err.println("❌ Lỗi getRequestsByDepartment: " + e.getMessage());
+    }
+
+    return list;
+}
+
+
 
 }
