@@ -22,46 +22,115 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
-            background: linear-gradient(to right, #dee2e6, #f8f9fa);
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #fff;
+            overflow-x: hidden;
+            background: linear-gradient(45deg, #6b48ff, #af69ef, #d4a4eb);
+            background-size: 200% 200%;
+            animation: dreamyPurpleFlow 12s ease infinite;
         }
-        .card-option {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+        @keyframes dreamyPurpleFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-        .card-option:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+
+        .container {
+            padding-top: 60px;
+            padding-bottom: 40px;
+            max-width: 1200px;
         }
-        .icon-circle {
-            font-size: 2rem;
-            padding: 20px;
-            border-radius: 50%;
-            color: white;
-            display: inline-block;
+
+        .header-text {
+            font-size: 2.5rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
             margin-bottom: 10px;
         }
-        .bg-leave { background-color: #0d6efd; }
-        .bg-view  { background-color: #20c997; }
-        .bg-profile { background-color: #ffc107; color: black; }
-        .bg-logout { background-color: #dc3545; }
+
+        .subheader-text {
+            font-size: 1.1rem;
+            font-weight: 300;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        .card-option {
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            height: 100%;
+        }
+
+        .card-option:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-body {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .icon-circle {
+            font-size: 2.5rem;
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            color: #fff;
+            margin: 0 auto 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .card-text {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .bg-leave { background: linear-gradient(135deg, #0d6efd, #4dabf7); }
+        .bg-view  { background: linear-gradient(135deg, #20c997, #2ecc71); }
+        .bg-profile { background: linear-gradient(135deg, #ffc107, #ffca28); color: #333; }
+        .bg-logout { background: linear-gradient(135deg, #dc3545, #e74c3c); }
+
+        a.text-decoration-none:hover .card-option {
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
 
-<div class="container mt-5">
-    <div class="text-center mb-4">
-        <h2>👋 Chào mừng, <%= user.getFullName() %>!</h2>
-        <p class="text-muted">Bạn đang đăng nhập với vai trò: <strong>Người dùng</strong></p>
+<div class="container">
+    <div class="text-center">
+        <h2 class="header-text">👋 Chào mừng, <%= user.getFullName() %>!</h2>
+        <p class="subheader-text">Bạn đang đăng nhập với vai trò: <strong>Người dùng</strong></p>
     </div>
 
     <div class="row g-4">
         <div class="col-md-6 col-lg-3">
             <a href="${pageContext.request.contextPath}/request-leave" class="text-decoration-none">
-                <div class="card card-option text-center">
+                <div class="card card-option">
                     <div class="card-body">
                         <div class="icon-circle bg-leave"><i class="bi bi-pencil-square"></i></div>
                         <h5 class="card-title">Gửi đơn nghỉ</h5>
-                        <p class="card-text text-muted">Tạo đơn xin nghỉ phép mới</p>
+                        <p class="card-text">Tạo đơn xin nghỉ phép mới</p>
                     </div>
                 </div>
             </a>
@@ -69,11 +138,11 @@
 
         <div class="col-md-6 col-lg-3">
             <a href="${pageContext.request.contextPath}/my-leave" class="text-decoration-none">
-                <div class="card card-option text-center">
+                <div class="card card-option">
                     <div class="card-body">
                         <div class="icon-circle bg-view"><i class="bi bi-file-earmark-text"></i></div>
                         <h5 class="card-title">Đơn đã gửi</h5>
-                        <p class="card-text text-muted">Xem lịch sử đơn xin nghỉ</p>
+                        <p class="card-text">Xem lịch sử đơn xin nghỉ</p>
                     </div>
                 </div>
             </a>
@@ -81,11 +150,11 @@
 
         <div class="col-md-6 col-lg-3">
             <a href="${pageContext.request.contextPath}/view/UserProfile.jsp" class="text-decoration-none">
-                <div class="card card-option text-center">
+                <div class="card card-option">
                     <div class="card-body">
                         <div class="icon-circle bg-profile"><i class="bi bi-person-circle"></i></div>
                         <h5 class="card-title">Thông tin</h5>
-                        <p class="card-text text-muted">Xem thông tin cá nhân</p>
+                        <p class="card-text">Xem thông tin cá nhân</p>
                     </div>
                 </div>
             </a>
@@ -93,11 +162,11 @@
 
         <div class="col-md-6 col-lg-3">
             <a href="#" onclick="confirmLogout(event)" class="text-decoration-none">
-                <div class="card card-option text-center">
+                <div class="card card-option">
                     <div class="card-body">
                         <div class="icon-circle bg-logout"><i class="bi bi-box-arrow-right"></i></div>
                         <h5 class="card-title text-danger">Đăng xuất</h5>
-                        <p class="card-text text-muted">Rời khỏi hệ thống</p>
+                        <p class="card-text">Rời khỏi hệ thống</p>
                     </div>
                 </div>
             </a>

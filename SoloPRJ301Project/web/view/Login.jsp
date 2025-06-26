@@ -14,23 +14,60 @@
     <link href="<%= request.getContextPath() %>/assets/css/style.min.css" rel="stylesheet" id="theme-opt" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
+        body {
+            height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         .custom-error-message {
             color: red;
             font-weight: bold;
             font-size: 1.2rem;
         }
+
+        .login-page {
+            border-radius: 1rem;
+        }
+
+        .btn-primary {
+            background-color: #dc3545;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #bb2d3b;
+        }
+
+        .btn-outline-danger {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+
+        .btn-outline-danger:hover {
+            background-color: #dc3545;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
 
-<section class="bg-home d-flex bg-light align-items-center"
-         style="background: url('<%= request.getContextPath() %>/assets/images/bg/bg-lines-one.png') center;">
+<section class="d-flex align-items-center justify-content-center" style="min-height: 100vh;">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-5 col-md-8">
                 <img src="<%= request.getContextPath() %>/assets/images/charity.png" height="60"
                      class="mx-auto d-block" alt="">
-                <div class="card login-page bg-white shadow mt-4 rounded border-0">
+                <div class="card login-page bg-white shadow mt-4 border-0">
                     <div class="card-body">
                         <h4 class="text-center">Sign In</h4>
                         <form action="<%= request.getContextPath() %>/login" method="post" class="login-form mt-4">
@@ -68,7 +105,6 @@
         </div>
     </div>
 </section>
-
 
 <script src="<%= request.getContextPath() %>/assets/js/bootstrap.bundle.min.js"></script>
 <script src="<%= request.getContextPath() %>/assets/js/feather.min.js"></script>

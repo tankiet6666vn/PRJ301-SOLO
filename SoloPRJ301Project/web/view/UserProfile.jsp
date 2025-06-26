@@ -18,9 +18,20 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
-            background: #f8f9fa;
+            height: 100vh;
+            margin: 0;
             font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
         }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         .profile-card {
             max-width: 600px;
             margin: 60px auto;
@@ -29,8 +40,18 @@
             border-radius: 15px;
             box-shadow: 0 1rem 1.5rem rgba(0, 0, 0, 0.1);
         }
+
         .form-label {
             font-weight: 600;
+        }
+
+        .btn-primary {
+            background-color: #dc3545;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #bb2d3b;
         }
     </style>
 </head>

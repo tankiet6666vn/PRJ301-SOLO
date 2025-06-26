@@ -2,7 +2,6 @@
 <%@page import="model.User"%>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-
 <%
     User user = (User) session.getAttribute("user");
     if (user == null || user.getRoleID() != 3) {
@@ -23,8 +22,18 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
-            background: linear-gradient(to right, #e3f2fd, #f8f9fa);
+            height: 100vh;
+            margin: 0;
             font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .card {
@@ -44,12 +53,12 @@
         }
 
         .btn-success {
-            background-color: #28a745;
+            background-color: #dc3545;
             border: none;
         }
 
         .btn-success:hover {
-            background-color: #218838;
+            background-color: #bb2d3b;
         }
 
         .alert {
@@ -109,12 +118,12 @@
                         <% if (error != null) { %>
                             <div class="alert alert-danger text-center mt-3"><%= error %></div>
                         <% } %>
-                        
-                         <div class="text-center mt-4">
-                        <a href="<%= request.getContextPath() %>/view/Menu.jsp" class="btn btn-secondary">
-                            ← Quay lại menu
-                        </a>
-                    </div>
+
+                        <div class="text-center mt-4">
+                            <a href="<%= request.getContextPath() %>/view/Menu.jsp" class="btn btn-secondary">
+                                ← Quay lại menu
+                            </a>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -122,7 +131,6 @@
     </div>
 </div>
 
-<!-- ✅ SweetAlert popup khi gửi đơn thành công -->
 <% if (success != null) { %>
 <script>
     Swal.fire({
@@ -135,7 +143,6 @@
     });
 </script>
 <% } %>
-
 
 </body>
 </html>

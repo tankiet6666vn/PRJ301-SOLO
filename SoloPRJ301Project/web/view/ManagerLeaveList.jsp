@@ -13,7 +13,6 @@
     int currentPage = (request.getAttribute("currentPage") != null) ? (int) request.getAttribute("currentPage") : 1;
     int totalPages = (request.getAttribute("totalPages") != null) ? (int) request.getAttribute("totalPages") : 1;
 %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,11 +21,46 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+        }
+
+        .card-header {
+            background-color: #343a40;
+            color: white;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+        }
+    </style>
 </head>
-<body class="bg-light">
+<body>
 <div class="container mt-5">
     <div class="card shadow-lg">
-        <div class="card-header bg-dark text-white">
+        <div class="card-header">
             <h4><i class="bi bi-person-check me-2"></i>Duyệt đơn nghỉ phép (phòng ban bạn quản lý)</h4>
         </div>
         <div class="card-body">
@@ -114,16 +148,27 @@
     </div>
 </div>
 
-<%-- SweetAlert2 --%>
 <% if (request.getAttribute("success") != null) { %>
 <script>
-    Swal.fire({ icon: 'success', title: 'Thành công!', text: '<%= request.getAttribute("success") %>', timer: 2000, showConfirmButton: false });
+    Swal.fire({
+        icon: 'success',
+        title: 'Thành công!',
+        text: '<%= request.getAttribute("success") %>',
+        timer: 2000,
+        showConfirmButton: false
+    });
 </script>
 <% } %>
 
 <% if (request.getAttribute("error") != null) { %>
 <script>
-    Swal.fire({ icon: 'error', title: 'Thất bại!', text: '<%= request.getAttribute("error") %>', timer: 2500, showConfirmButton: false });
+    Swal.fire({
+        icon: 'error',
+        title: 'Thất bại!',
+        text: '<%= request.getAttribute("error") %>',
+        timer: 2500,
+        showConfirmButton: false
+    });
 </script>
 <% } %>
 

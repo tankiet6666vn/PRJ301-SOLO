@@ -24,6 +24,9 @@ public class LoginAdminServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
 
+            // ✅ Gán thông báo login thành công
+            session.setAttribute("loginSuccess", "🎉 Chào mừng " + user.getFullName() + "!");
+
             // ✅ Điều hướng theo vai trò
             if (user.getRoleID() == 1) {
                 response.sendRedirect(request.getContextPath() + "/user-list"); // Admin
@@ -40,4 +43,3 @@ public class LoginAdminServlet extends HttpServlet {
         }
     }
 }
-

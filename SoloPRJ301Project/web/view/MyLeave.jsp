@@ -21,16 +21,29 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         body {
-            background: #f8f9fa;
+            height: 100vh;
+            margin: 0;
             font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
         }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         .card {
             border-radius: 1rem;
         }
+
         .table thead {
             background-color: #343a40;
             color: white;
         }
+
         .badge {
             font-size: 0.9rem;
         }
@@ -81,29 +94,29 @@
                         <% } %>
                         </tbody>
                     </table>
-                        <%-- Phân trang --%>
-<div class="d-flex justify-content-center mt-3">
-    <nav>
-        <ul class="pagination">
-            <% 
-                int currentPage = (Integer) request.getAttribute("currentPage");
-                int totalPages = (Integer) request.getAttribute("totalPages");
-                for (int i = 1; i <= totalPages; i++) { 
-            %>
-                <li class="page-item <%= i == currentPage ? "active" : "" %>">
-                    <a class="page-link" href="my-leave?page=<%= i %>"><%= i %></a>
-                </li>
-            <% } %>
-        </ul>
-    </nav>
-</div>
+
+                    <%-- Phân trang --%>
+                    <div class="d-flex justify-content-center mt-3">
+                        <nav>
+                            <ul class="pagination">
+                                <%
+                                    int currentPage = (Integer) request.getAttribute("currentPage");
+                                    int totalPages = (Integer) request.getAttribute("totalPages");
+                                    for (int i = 1; i <= totalPages; i++) {
+                                %>
+                                    <li class="page-item <%= i == currentPage ? "active" : "" %>">
+                                        <a class="page-link" href="my-leave?page=<%= i %>"><%= i %></a>
+                                    </li>
+                                <% } %>
+                            </ul>
+                        </nav>
+                    </div>
 
                 </div>
             <% } %>
 
             <div class="text-center mt-4">
                 <a href="${pageContext.request.contextPath}/view/Menu.jsp" class="btn btn-secondary">← Quay lại Menu</a>
-
             </div>
 
         </div>
