@@ -37,7 +37,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.45); /* Mức độ làm mờ */
+            background-color: rgba(0, 0, 0, 0.45);
             z-index: -1;
         }
 
@@ -74,16 +74,44 @@
             font-weight: bold;
             font-size: 1.2rem;
         }
+
+        .home-btn {
+            position: fixed;
+            top: 20px;
+            left: 30px;
+            z-index: 100;
+        }
+
+        .home-btn a {
+            display: inline-block;
+            padding: 8px 20px;
+            background-color: #0d6efd;
+            color: #fff;
+            border-radius: 30px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
+        }
+
+        .home-btn a:hover {
+            background-color: #0b5ed7;
+            box-shadow: 0 6px 18px rgba(13, 110, 253, 0.35);
+        }
     </style>
 </head>
 <body>
+
+<!-- 🏠 Nút Home kiểu homepage -->
+<div class="home-btn">
+    <a href="<%= request.getContextPath() %>/view/Homepage.jsp"> Home</a>
+</div>
 
 <!-- 🔥 VIDEO BACKGROUND -->
 <video autoplay muted loop playsinline id="bg-video">
     <source src="<%= request.getContextPath() %>/assets/video/A.mp4" type="video/mp4">
     Your browser does not support HTML5 video.
 </video>
-<!-- 🌓 OVERLAY LÀM MỜ -->
 <div class="video-overlay"></div>
 
 <!-- 🔐 LOGIN FORM -->

@@ -27,7 +27,7 @@
             padding: 0;
             min-height: 100vh;
             font-family: 'Segoe UI', sans-serif;
-            background: url('<%= request.getContextPath() %>/assets/images/Test.jpeg') no-repeat center center fixed;
+            background: url('<%= request.getContextPath() %>/assets/images/z.png') no-repeat center center fixed;
             background-size: cover;
         }
 
