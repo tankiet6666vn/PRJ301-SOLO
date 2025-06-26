@@ -235,16 +235,49 @@ public boolean updateUser(User user) {
 
 
 
-public boolean deleteUser(int userID) {
-    String sql = "DELETE FROM Users WHERE UserID = ?";
-    try (PreparedStatement ps = connection.prepareStatement(sql)) {
-        ps.setInt(1, userID);
-        return ps.executeUpdate() > 0;
+public boolean deleteUserCompletely(int userID) {
+    String deleteLogs = "DELETE FROM ActivityLog WHERE UserID = ?";
+    String deleteLeaves = "DELETE FROM LeaveRequests WHERE UserID = ? OR ApprovedBy = ?";
+    String deleteUser = "DELETE FROM Users WHERE UserID = ?";
+
+    try {
+        connection.setAutoCommit(false); // bắt đầu transaction
+
+        try (PreparedStatement ps1 = connection.prepareStatement(deleteLogs)) {
+            ps1.setInt(1, userID);
+            ps1.executeUpdate();
+        }
+
+        try (PreparedStatement ps2 = connection.prepareStatement(deleteLeaves)) {
+            ps2.setInt(1, userID);
+            ps2.setInt(2, userID);
+            ps2.executeUpdate();
+        }
+
+        try (PreparedStatement ps3 = connection.prepareStatement(deleteUser)) {
+            ps3.setInt(1, userID);
+            int rows = ps3.executeUpdate();
+            connection.commit();
+            return rows > 0;
+        }
+
     } catch (SQLException e) {
-        System.err.println("❌ Lỗi deleteUser: " + e.getMessage());
+        try {
+            connection.rollback(); // rollback nếu lỗi
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        System.err.println("❌ Lỗi deleteUserCompletely: " + e.getMessage());
         return false;
+    } finally {
+        try {
+            connection.setAutoCommit(true);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
+
 public User getByUsername(String username) {
     String sql = "SELECT * FROM Users WHERE Username = ?";
     try (PreparedStatement ps = connection.prepareStatement(sql)) {
