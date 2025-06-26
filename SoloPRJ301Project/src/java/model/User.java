@@ -35,6 +35,19 @@ public class User {
         this.departmentID = departmentID;
         this.roleID = roleID;
     }
+    public User(int userID, String username, String passwordHash, String fullName, String email,
+            int departmentID, int roleID, String securityQuestion, String securityAnswer) {
+    this.userID = userID;
+    this.username = username;
+    this.passwordHash = passwordHash;
+    this.fullName = fullName;
+    this.email = email;
+    this.departmentID = departmentID;
+    this.roleID = roleID;
+    this.securityQuestion = securityQuestion;
+    this.securityAnswer = securityAnswer;
+}
+
 
     public String getSecurityQuestion() {
         return securityQuestion;

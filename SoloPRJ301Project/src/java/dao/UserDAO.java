@@ -164,6 +164,87 @@ public class UserDAO extends BaseDao {
     }
     return false;
 }
+public List<User> searchUsers(String keyword) {
+    List<User> list = new ArrayList<>();
+    String sql = "SELECT u.*, d.DepartmentName, r.RoleName FROM Users u " +
+                 "JOIN Departments d ON u.DepartmentID = d.DepartmentID " +
+                 "JOIN Roles r ON u.RoleID = r.RoleID " +
+                 "WHERE u.FullName LIKE ? OR u.Email LIKE ?";
+
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        String q = "%" + keyword + "%";
+        ps.setString(1, q);
+        ps.setString(2, q);
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                User user = new User();
+                user.setUserID(rs.getInt("UserID"));
+                user.setUsername(rs.getString("Username"));
+                user.setFullName(rs.getString("FullName"));
+                user.setEmail(rs.getString("Email"));
+                user.setRoleID(rs.getInt("RoleID"));
+                user.setDepartmentID(rs.getInt("DepartmentID"));
+                user.setDepartmentName(rs.getString("DepartmentName"));
+                user.setRoleName(rs.getString("RoleName"));
+                list.add(user);
+            }
+        }
+    } catch (SQLException e) {
+        System.err.println("❌ Lỗi searchUsers: " + e.getMessage());
+    }
+    return list;
+}
+public User getUserById(int id) {
+    String sql = "SELECT * FROM Users WHERE UserID = ?";
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return new User(
+                rs.getInt("UserID"),
+                rs.getString("Username"),
+                rs.getString("PasswordHash"),
+                rs.getString("FullName"),
+                rs.getString("Email"),
+                rs.getInt("DepartmentID"),
+                rs.getInt("RoleID"),
+                rs.getString("SecurityQuestion"),
+                rs.getString("SecurityAnswer")
+            );
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return null;
+}
+
+public boolean updateUser(User user) {
+    String sql = "UPDATE Users SET FullName=?, Email=?, DepartmentID=?, RoleID=? WHERE UserID=?";
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setString(1, user.getFullName());
+        ps.setString(2, user.getEmail());
+        ps.setInt(3, user.getDepartmentID());
+        ps.setInt(4, user.getRoleID());
+        ps.setInt(5, user.getUserID());
+        return ps.executeUpdate() > 0;
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false;
+}
+
+
+
+public boolean deleteUser(int userID) {
+    String sql = "DELETE FROM Users WHERE UserID = ?";
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setInt(1, userID);
+        return ps.executeUpdate() > 0;
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
 
 
 

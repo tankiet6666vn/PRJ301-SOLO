@@ -16,95 +16,40 @@
             animation: gradientBG 15s ease infinite;
             font-family: 'Segoe UI', sans-serif;
         }
-
         @keyframes gradientBG {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-
-        .wrapper {
-            display: flex;
-            min-height: 100vh;
-        }
-
+        .wrapper { display: flex; min-height: 100vh; }
         .sidebar {
             width: 220px;
             background-color: #6c757d;
             color: white;
             transition: all 0.3s ease;
         }
-
-        .sidebar.collapsed {
-            width: 70px;
-        }
-
+        .sidebar.collapsed { width: 70px; }
         .sidebar .nav-link {
             color: #f8f9fa;
             padding: 12px 20px;
             transition: 0.3s;
         }
-
         .sidebar .nav-link:hover, .sidebar .nav-link.active {
             background-color: #5a6268;
             color: white;
         }
-
-        .sidebar .nav-link i {
-            margin-right: 10px;
-        }
-
-        .sidebar.collapsed .nav-link span {
-            display: none;
-        }
-
-        .sidebar-header {
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        .sidebar-toggle {
-            text-align: end;
-            padding: 15px;
-        }
-
-        .toggle-btn {
-            background: none;
-            border: none;
-            color: white;
-        }
-
-        .main-content {
-            flex: 1;
-            padding: 30px;
-        }
-
-        .card-header {
-            background-color: #6c757d;
-            color: white;
-        }
-
-        .badge-admin {
-            background-color: #28a745;
-        }
-
-        .badge-employee {
-            background-color: #17a2b8;
-        }
-
-        .badge-manager {
-            background-color: #ffc107;
-            color: black;
-        }
-
-        .table-hover tbody tr:hover {
-            background-color: #f1f1f1;
-        }
-
-        .table thead {
-            background-color: #6c757d;
-            color: white;
-        }
+        .sidebar .nav-link i { margin-right: 10px; }
+        .sidebar.collapsed .nav-link span { display: none; }
+        .sidebar-header { text-align: center; margin-top: 10px; }
+        .sidebar-toggle { text-align: end; padding: 15px; }
+        .toggle-btn { background: none; border: none; color: white; }
+        .main-content { flex: 1; padding: 30px; }
+        .card-header { background-color: #6c757d; color: white; }
+        .badge-admin { background-color: #28a745; }
+        .badge-employee { background-color: #17a2b8; }
+        .badge-manager { background-color: #ffc107; color: black; }
+        .table-hover tbody tr:hover { background-color: #f1f1f1; }
+        .table thead { background-color: #6c757d; color: white; }
     </style>
 </head>
 <body>
@@ -138,10 +83,24 @@
                 <h4>📋 Danh sách người dùng</h4>
             </div>
             <div class="card-body">
+
+                <!-- 🔍 Form tìm kiếm -->
+                <form method="get" action="user-list" class="mb-3 d-flex">
+                    <input type="text" name="search" class="form-control me-2"
+                           placeholder="Tìm theo tên hoặc email"
+                           value="<%= request.getParameter("search") != null ? request.getParameter("search") : "" %>">
+                    <button class="btn btn-outline-light">🔍 Tìm</button>
+                </form>
+
                 <%
                     List<User> users = (List<User>) request.getAttribute("users");
-                    if (users != null && !users.isEmpty()) {
+                    Integer currentPage = (Integer) request.getAttribute("currentPage");
+                    Integer totalPages = (Integer) request.getAttribute("totalPages");
+                    if (currentPage == null) currentPage = 1;
+                    if (totalPages == null) totalPages = 1;
                 %>
+
+                <% if (users != null && !users.isEmpty()) { %>
                 <table class="table table-bordered table-hover align-middle">
                     <thead class="text-center">
                         <tr>
@@ -178,12 +137,8 @@
                         <% } %>
                     </tbody>
                 </table>
-                <%
-                    Integer currentPage = (Integer) request.getAttribute("currentPage");
-                    Integer totalPages = (Integer) request.getAttribute("totalPages");
-                    if (currentPage == null) currentPage = 1;
-                    if (totalPages == null) totalPages = 1;
-                %>
+
+                <!-- ⏭️ Phân trang -->
                 <nav class="mt-4">
                     <ul class="pagination justify-content-center">
                         <li class="page-item <%= currentPage == 1 ? "disabled" : "" %>">
@@ -207,6 +162,7 @@
     </div>
 </div>
 
+<!-- JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     function toggleSidebar() {
@@ -233,12 +189,12 @@
        if (success != null) {
            session.removeAttribute("loginSuccess");
     %>
-        Swal.fire({
-            icon: 'success',
-            title: '<%= success %>',
-            showConfirmButton: false,
-            timer: 2000
-        });
+    Swal.fire({
+        icon: 'success',
+        title: '<%= success %>',
+        showConfirmButton: false,
+        timer: 2000
+    });
     <% } %>
 </script>
 
