@@ -14,18 +14,45 @@
     <link href="<%= request.getContextPath() %>/assets/css/style.min.css" rel="stylesheet" id="theme-opt" />
 
     <style>
-        body {
+        html, body {
             margin: 0;
-            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            padding: 0;
+            height: 100%;
             font-family: 'Segoe UI', sans-serif;
+            overflow: hidden;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .video-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1;
+        }
+
+        .recovery-wrapper {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 30px 15px;
+        }
+
+        .card {
+            border-radius: 1rem;
+            background-color: #fff;
         }
 
         .custom-error-message {
@@ -39,67 +66,87 @@
             font-weight: bold;
             font-size: 1.1rem;
         }
+
+        .btn-primary {
+            background-color: #dc3545;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #bb2d3b;
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: #6c757d;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
-    <section class="d-flex align-items-center py-5" style="min-height: 100vh;">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-5 col-md-8">
-                    <img src="<%= request.getContextPath() %>/assets/images/charity.png" height="60"
-                         class="mx-auto d-block" alt="">
-                    <div class="card login-page bg-white shadow mt-4 rounded border-0">
-                        <div class="card-body">
-                            <h4 class="text-center">Recover Password</h4>
-                            <form action="<%= request.getContextPath() %>/recover" method="post" class="login-form mt-4">
-                                <div class="mb-3">
-                                    <label class="form-label">Username <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="username" placeholder="Enter your username" required>
-                                </div>
 
-                                <div class="mb-3">
-                                    <label class="form-label">Security Question <span class="text-danger">*</span></label>
-                                    <select class="form-control" name="question" required>
-                                        <option value="">-- Select a question --</option>
-                                        <option value="What is your pet’s name?">What is your pet’s name?</option>
-                                        <option value="What is your mother’s maiden name?">What is your mother’s maiden name?</option>
-                                        <option value="What is your favorite color?">What is your favorite color?</option>
-                                    </select>
-                                </div>
+<!-- 🎥 VIDEO BACKGROUND -->
+<video autoplay muted loop class="video-bg">
+    <source src="<%= request.getContextPath() %>/assets/video/R.mp4" type="video/mp4">
+</video>
+<div class="overlay"></div>
 
-                                <div class="mb-3">
-                                    <label class="form-label">Answer <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="answer" placeholder="Enter your answer" required>
-                                </div>
+<section class="recovery-wrapper">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-5 col-md-8">
+                
+                <div class="card shadow mt-4 border-0">
+                    <div class="card-body">
+                        <h4 class="text-center">Recover Password</h4>
+                        <form action="<%= request.getContextPath() %>/recover" method="post" class="login-form mt-4">
+                            <div class="mb-3">
+                                <label class="form-label">Username <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="username" placeholder="Enter your username" required>
+                            </div>
 
-                                <div class="d-grid">
-                                    <button type="submit" class="btn btn-primary">Verify</button>
-                                </div>
+                            <div class="mb-3">
+                                <label class="form-label">Security Question <span class="text-danger">*</span></label>
+                                <select class="form-control" name="question" required>
+                                    <option value="">-- Select a question --</option>
+                                    <option value="What is your pet’s name?">What is your pet’s name?</option>
+                                    <option value="What is your mother’s maiden name?">What is your mother’s maiden name?</option>
+                                    <option value="What is your favorite color?">What is your favorite color?</option>
+                                </select>
+                            </div>
 
+                            <div class="mb-3">
+                                <label class="form-label">Answer <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="answer" placeholder="Enter your answer" required>
+                            </div>
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Verify</button>
+                            </div>
+
+                            <div class="text-center mt-3">
+                                <a href="<%= request.getContextPath() %>/view/Login.jsp" class="btn btn-outline-secondary">Back to Login</a>
+                            </div>
+
+                            <c:if test="${not empty error}">
                                 <div class="text-center mt-3">
-                                    <a href="<%= request.getContextPath() %>/view/Login.jsp" class="btn btn-outline-secondary">Back to Login</a>
+                                    <span class="custom-error-message">${error}</span>
                                 </div>
-
-                                <c:if test="${not empty error}">
-                                    <div class="text-center mt-3">
-                                        <span class="custom-error-message">${error}</span>
-                                    </div>
-                                </c:if>
-                                <c:if test="${not empty success}">
-                                    <div class="text-center mt-3">
-                                        <span class="custom-success-message">${success}</span>
-                                    </div>
-                                </c:if>
-                            </form>
-                        </div>
+                            </c:if>
+                            <c:if test="${not empty success}">
+                                <div class="text-center mt-3">
+                                    <span class="custom-success-message">${success}</span>
+                                </div>
+                            </c:if>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <script src="<%= request.getContextPath() %>/assets/js/bootstrap.bundle.min.js"></script>
-    <script src="<%= request.getContextPath() %>/assets/js/feather.min.js"></script>
-    <script src="<%= request.getContextPath() %>/assets/js/app.js"></script>
+<script src="<%= request.getContextPath() %>/assets/js/bootstrap.bundle.min.js"></script>
+<script src="<%= request.getContextPath() %>/assets/js/feather.min.js"></script>
+<script src="<%= request.getContextPath() %>/assets/js/app.js"></script>
 </body>
 </html>

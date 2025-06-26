@@ -15,25 +15,36 @@
     <link href="<%= request.getContextPath() %>/assets/css/style.min.css" rel="stylesheet" />
 
     <style>
-        body {
-            height: 100vh;
+        html, body {
             margin: 0;
+            height: 100%;
             font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            overflow: hidden;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        #bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            min-width: 100vw;
+            min-height: 100vh;
+            object-fit: cover;
+            z-index: -2;
         }
 
-        .custom-error-message {
-            color: red;
-            font-weight: bold;
-            font-size: 1.2rem;
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.45);
+            z-index: -1;
+        }
+
+        section {
+            position: relative;
+            z-index: 1;
         }
 
         .login-page {
@@ -48,15 +59,27 @@
         .btn-danger:hover {
             background-color: #bb2d3b;
         }
+
+        .custom-error-message {
+            color: red;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
     </style>
 </head>
 <body>
+
+<!-- 🔥 Video nền -->
+<video autoplay muted loop playsinline id="bg-video">
+    <source src="<%= request.getContextPath() %>/assets/video/A.mp4" type="video/mp4">
+</video>
+<!-- 🌓 Overlay mờ -->
+<div class="video-overlay"></div>
 
 <section class="d-flex align-items-center justify-content-center" style="min-height: 100vh;">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-5 col-md-8">
-                <img src="<%= request.getContextPath() %>/assets/images/charity.png" height="60" class="mx-auto d-block" alt="">
                 <div class="card login-page bg-white shadow mt-4 border-0">
                     <div class="card-body">
                         <h4 class="text-center">Admin Sign In</h4>  

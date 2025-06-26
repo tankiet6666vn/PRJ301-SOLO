@@ -10,40 +10,63 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        body {
-            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
             font-family: 'Segoe UI', sans-serif;
+            background: url('<%= request.getContextPath() %>/assets/images/e.png') no-repeat center center fixed;
+            background-size: cover;
         }
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+
+        .overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 0;
         }
-        .wrapper { display: flex; min-height: 100vh; }
+
+        .wrapper {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
         .sidebar {
             width: 220px;
             background-color: #6c757d;
             color: white;
             transition: all 0.3s ease;
         }
+
         .sidebar.collapsed { width: 70px; }
         .sidebar .nav-link {
             color: #f8f9fa;
             padding: 12px 20px;
             transition: 0.3s;
         }
+
         .sidebar .nav-link:hover, .sidebar .nav-link.active {
             background-color: #5a6268;
             color: white;
         }
+
         .sidebar .nav-link i { margin-right: 10px; }
         .sidebar.collapsed .nav-link span { display: none; }
         .sidebar-header { text-align: center; margin-top: 10px; }
         .sidebar-toggle { text-align: end; padding: 15px; }
         .toggle-btn { background: none; border: none; color: white; }
-        .main-content { flex: 1; padding: 30px; }
+
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            background-color: rgba(255,255,255,0.95);
+            overflow: auto;
+        }
+
         .card-header { background-color: #6c757d; color: white; }
         .badge-admin { background-color: #28a745; }
         .badge-employee { background-color: #17a2b8; }
@@ -53,6 +76,8 @@
     </style>
 </head>
 <body>
+
+<div class="overlay"></div>
 
 <div class="wrapper">
     <!-- Sidebar -->
@@ -83,8 +108,6 @@
                 <h4>📋 Danh sách người dùng</h4>
             </div>
             <div class="card-body">
-
-                <!-- 🔍 Form tìm kiếm -->
                 <form method="get" action="user-list" class="mb-3 d-flex">
                     <input type="text" name="search" class="form-control me-2"
                            placeholder="Tìm theo tên hoặc email"
@@ -138,7 +161,7 @@
                     </tbody>
                 </table>
 
-                <!-- ⏭️ Phân trang -->
+                <!-- Pagination -->
                 <nav class="mt-4">
                     <ul class="pagination justify-content-center">
                         <li class="page-item <%= currentPage == 1 ? "disabled" : "" %>">
@@ -162,7 +185,6 @@
     </div>
 </div>
 
-<!-- JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     function toggleSidebar() {

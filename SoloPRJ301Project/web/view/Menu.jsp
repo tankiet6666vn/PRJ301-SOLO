@@ -7,7 +7,6 @@
         return;
     }
 
-    // Lấy thông báo đăng nhập thành công từ session
     String loginSuccess = (String) session.getAttribute("loginSuccess");
     if (loginSuccess != null) session.removeAttribute("loginSuccess");
 %>
@@ -27,21 +26,27 @@
             padding: 0;
             color: #fff;
             overflow-x: hidden;
-            background: linear-gradient(45deg, #6b48ff, #af69ef, #d4a4eb);
-            background-size: 200% 200%;
-            animation: dreamyPurpleFlow 12s ease infinite;
+            background: url('<%= request.getContextPath() %>/assets/images/c.png') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
         }
 
-        @keyframes dreamyPurpleFlow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5); /* lớp mờ tối */
+            z-index: 0;
         }
 
         .container {
             padding-top: 60px;
             padding-bottom: 40px;
             max-width: 1200px;
+            position: relative;
+            z-index: 1;
         }
 
         .header-text {
@@ -116,6 +121,9 @@
     </style>
 </head>
 <body>
+
+<!-- 🌑 Overlay lớp mờ tối -->
+<div class="overlay"></div>
 
 <div class="container">
     <div class="text-center">
@@ -194,7 +202,6 @@
     }
 </script>
 
-<%-- ✅ Hiển thị popup nếu đăng nhập thành công --%>
 <% if (loginSuccess != null) { %>
 <script>
     Swal.fire({

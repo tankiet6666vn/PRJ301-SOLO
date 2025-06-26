@@ -11,21 +11,56 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            font-family: 'Segoe UI', sans-serif;
+            background: url('<%= request.getContextPath() %>/assets/images/e.png') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 0;
+        }
+
+        .container {
+            padding-top: 60px;
+            padding-bottom: 60px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card {
+            border-radius: 12px;
+            box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+        }
+
         .btn-group-center {
             display: flex;
             justify-content: center;
             gap: 15px;
             margin-top: 20px;
         }
+
         .btn-sm-custom {
             padding: 6px 18px;
             font-size: 0.9rem;
         }
     </style>
 </head>
-<body class="bg-light">
+<body>
 
-<div class="container mt-5">
+<!-- Overlay nền tối -->
+<div class="overlay"></div>
+
+<div class="container">
     <div class="card shadow-lg">
         <div class="card-header bg-primary text-white">
             <h4 class="mb-0">✏️ Chỉnh sửa người dùng</h4>

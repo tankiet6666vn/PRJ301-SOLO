@@ -24,19 +24,35 @@
             height: 100vh;
             margin: 0;
             font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            background: url('<%= request.getContextPath() %>/assets/images/c.png') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+            color: #333;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 0;
+        }
+
+        .container {
+            padding-top: 50px;
+            padding-bottom: 40px;
+            position: relative;
+            z-index: 1;
         }
 
         .card {
             border-radius: 1rem;
+        }
+
+        .card-header {
+            font-weight: bold;
         }
 
         .table thead {
@@ -51,7 +67,10 @@
 </head>
 <body>
 
-<div class="container py-5">
+<!-- Overlay nền tối -->
+<div class="overlay"></div>
+
+<div class="container">
     <div class="card shadow-lg">
         <div class="card-header text-white bg-primary text-center">
             <h4><i class="bi bi-clock-history me-2"></i>Lịch sử đơn nghỉ phép</h4>

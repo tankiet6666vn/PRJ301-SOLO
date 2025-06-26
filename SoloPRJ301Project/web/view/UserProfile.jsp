@@ -18,18 +18,23 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
-            height: 100vh;
             margin: 0;
+            padding: 0;
+            height: 100vh;
             font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            background: url('<%= request.getContextPath() %>/assets/images/c.png') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 0;
         }
 
         .profile-card {
@@ -39,6 +44,8 @@
             background: white;
             border-radius: 15px;
             box-shadow: 0 1rem 1.5rem rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
         }
 
         .form-label {
@@ -56,6 +63,9 @@
     </style>
 </head>
 <body>
+
+<!-- Overlay nền tối -->
+<div class="overlay"></div>
 
 <div class="profile-card">
     <h4 class="mb-4 text-center"><i class="bi bi-person-circle me-2"></i>Thông tin người dùng</h4>

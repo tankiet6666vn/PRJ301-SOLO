@@ -22,19 +22,30 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        body {
+        html, body {
             margin: 0;
+            padding: 0;
             min-height: 100vh;
-            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
             font-family: 'Segoe UI', sans-serif;
+            background: url('<%= request.getContextPath() %>/assets/images/Test.jpeg') no-repeat center center fixed;
+            background-size: cover;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            padding-top: 60px;
+            padding-bottom: 60px;
         }
 
         .card {
@@ -58,7 +69,10 @@
     </style>
 </head>
 <body>
-<div class="container mt-5">
+
+<div class="overlay"></div>
+
+<div class="container">
     <div class="card shadow-lg">
         <div class="card-header">
             <h4><i class="bi bi-person-check me-2"></i>Duyệt đơn nghỉ phép (phòng ban bạn quản lý)</h4>

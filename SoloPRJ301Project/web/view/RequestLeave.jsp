@@ -19,21 +19,32 @@
     <title>Gửi đơn nghỉ phép</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
-            height: 100vh;
             margin: 0;
+            padding: 0;
+            height: 100vh;
             font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            background: url('<%= request.getContextPath() %>/assets/images/c.png') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 0;
+        }
+
+        .container {
+            padding-top: 50px;
+            padding-bottom: 40px;
+            position: relative;
+            z-index: 1;
         }
 
         .card {
@@ -68,7 +79,10 @@
 </head>
 <body>
 
-<div class="container py-5">
+<!-- Lớp overlay tối -->
+<div class="overlay"></div>
+
+<div class="container">
     <div class="row justify-content-center">
         <div class="col-lg-7 col-md-9">
             <div class="card">

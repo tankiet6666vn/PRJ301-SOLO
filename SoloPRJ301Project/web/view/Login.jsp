@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Login - CHARITY CLUB</title>
+    <title>Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="<%= request.getContextPath() %>/assets/images/favicon.ico.png">
     <link href="<%= request.getContextPath() %>/assets/css/bootstrap.min.css" rel="stylesheet" />
@@ -14,25 +14,36 @@
     <link href="<%= request.getContextPath() %>/assets/css/style.min.css" rel="stylesheet" id="theme-opt" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        body {
-            height: 100vh;
+        html, body {
+            height: 100%;
             margin: 0;
             font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            overflow: hidden;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        #bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            min-width: 100vw;
+            min-height: 100vh;
+            object-fit: cover;
+            z-index: -2;
         }
 
-        .custom-error-message {
-            color: red;
-            font-weight: bold;
-            font-size: 1.2rem;
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.45); /* Mức độ làm mờ */
+            z-index: -1;
+        }
+
+        section {
+            position: relative;
+            z-index: 1;
         }
 
         .login-page {
@@ -57,16 +68,29 @@
             background-color: #dc3545;
             color: #fff;
         }
+
+        .custom-error-message {
+            color: red;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
     </style>
 </head>
 <body>
 
+<!-- 🔥 VIDEO BACKGROUND -->
+<video autoplay muted loop playsinline id="bg-video">
+    <source src="<%= request.getContextPath() %>/assets/video/A.mp4" type="video/mp4">
+    Your browser does not support HTML5 video.
+</video>
+<!-- 🌓 OVERLAY LÀM MỜ -->
+<div class="video-overlay"></div>
+
+<!-- 🔐 LOGIN FORM -->
 <section class="d-flex align-items-center justify-content-center" style="min-height: 100vh;">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-5 col-md-8">
-                <img src="<%= request.getContextPath() %>/assets/images/charity.png" height="60"
-                     class="mx-auto d-block" alt="">
                 <div class="card login-page bg-white shadow mt-4 border-0">
                     <div class="card-body">
                         <h4 class="text-center">Sign In</h4>
