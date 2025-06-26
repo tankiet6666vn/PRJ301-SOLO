@@ -1,5 +1,6 @@
 package controller;
 
+import dao.ActivityLogDAO;
 import dao.UserDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -23,6 +24,13 @@ public class LoginAdminServlet extends HttpServlet {
         if (user != null) {
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
+
+            // ✅ Ghi log khi đăng nhập admin/manager thành công
+            new ActivityLogDAO().insertLog(
+                user.getUserID(),
+                "Đăng nhập quản trị",
+                "Email: " + user.getEmail() + ", Role: " + user.getRoleID()
+            );
 
             // ✅ Gán thông báo login thành công
             session.setAttribute("loginSuccess", "🎉 Chào mừng " + user.getFullName() + "!");

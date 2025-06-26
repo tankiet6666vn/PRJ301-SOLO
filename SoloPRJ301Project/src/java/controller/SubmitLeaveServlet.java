@@ -1,5 +1,6 @@
 package controller;
 
+import dao.ActivityLogDAO;
 import dao.LeaveRequestDAO;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
@@ -35,6 +36,14 @@ public class SubmitLeaveServlet extends HttpServlet {
 
             if (success) {
                 request.setAttribute("success", "🎉 Gửi đơn nghỉ phép thành công!");
+
+                // ✅ Ghi log khi gửi đơn nghỉ thành công
+                new ActivityLogDAO().insertLog(
+                    user.getUserID(),
+                    "Gửi đơn nghỉ",
+                    "Từ " + startDate + " đến " + endDate + ", Lý do: " + reason
+                );
+
                 request.getRequestDispatcher("view/RequestLeave.jsp").forward(request, response);
 
             } else {

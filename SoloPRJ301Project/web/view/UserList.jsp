@@ -18,7 +18,6 @@
             background: url('<%= request.getContextPath() %>/assets/images/e.png') no-repeat center center fixed;
             background-size: cover;
         }
-
         .overlay {
             position: fixed;
             top: 0; left: 0;
@@ -27,46 +26,37 @@
             background: rgba(0, 0, 0, 0.5);
             z-index: 0;
         }
-
         .wrapper {
             display: flex;
             min-height: 100vh;
             position: relative;
             z-index: 1;
         }
-
         .sidebar {
             width: 220px;
             background-color: #6c757d;
             color: white;
             transition: all 0.3s ease;
         }
-
         .sidebar.collapsed { width: 70px; }
         .sidebar .nav-link {
             color: #f8f9fa;
             padding: 12px 20px;
-            transition: 0.3s;
         }
-
         .sidebar .nav-link:hover, .sidebar .nav-link.active {
             background-color: #5a6268;
-            color: white;
         }
-
         .sidebar .nav-link i { margin-right: 10px; }
         .sidebar.collapsed .nav-link span { display: none; }
         .sidebar-header { text-align: center; margin-top: 10px; }
         .sidebar-toggle { text-align: end; padding: 15px; }
         .toggle-btn { background: none; border: none; color: white; }
-
         .main-content {
             flex: 1;
             padding: 30px;
             background-color: rgba(255,255,255,0.95);
             overflow: auto;
         }
-
         .card-header { background-color: #6c757d; color: white; }
         .badge-admin { background-color: #28a745; }
         .badge-employee { background-color: #17a2b8; }
@@ -91,14 +81,19 @@
             <span class="fw-bold fs-5">🔧 Admin Tool</span>
         </div>
         <nav class="nav flex-column mt-4">
-            <a class="nav-link active" href="user-list"><i class="bi bi-people"></i><span>Quản lý người dùng</span></a>
-            <a class="nav-link" href="${pageContext.request.contextPath}/admin-leave-list">
-                <i class="bi bi-calendar-check"></i><span>Danh sách đơn</span>
-            </a>
-            <a class="nav-link" href="#" onclick="confirmLogout()">
-                <i class="bi bi-box-arrow-right"></i><span>Đăng xuất</span>
-            </a>
-        </nav>
+    <a class="nav-link active" href="user-list"><i class="bi bi-people"></i><span>Quản lý người dùng</span></a>
+    <a class="nav-link" href="${pageContext.request.contextPath}/admin-leave-list">
+        <i class="bi bi-calendar-check"></i><span>Danh sách đơn</span>
+    </a>
+    <a class="nav-link" href="${pageContext.request.contextPath}/activity-log">
+
+        <i class="bi bi-clipboard-data"></i><span> Xem Log</span>
+    </a>
+    <a class="nav-link" href="#" onclick="confirmLogout()">
+        <i class="bi bi-box-arrow-right"></i><span>Đăng xuất</span>
+    </a>
+</nav>
+
     </div>
 
     <!-- Main Content -->
@@ -112,7 +107,7 @@
                     <input type="text" name="search" class="form-control me-2"
                            placeholder="Tìm theo tên hoặc email"
                            value="<%= request.getParameter("search") != null ? request.getParameter("search") : "" %>">
-                    <button class="btn btn-outline-light">🔍 Tìm</button>
+                    <button class="btn btn-outline-dark">🔍 Tìm</button>
                 </form>
 
                 <%
@@ -154,7 +149,7 @@
                             </td>
                             <td class="text-center">
                                 <a href="edit-user?id=<%= user.getUserID() %>" class="btn btn-sm btn-outline-secondary">✏️ Edit</a>
-                                <a href="delete-user?id=<%= user.getUserID() %>" class="btn btn-sm btn-danger">🗑️ Delete</a>
+                                <button class="btn btn-sm btn-danger" onclick="confirmDelete(<%= user.getUserID() %>)">🗑️ Xóa</button>
                             </td>
                         </tr>
                         <% } %>
@@ -207,13 +202,40 @@
         });
     }
 
+    function confirmDelete(userId) {
+        Swal.fire({
+            title: 'Xác nhận xóa?',
+            text: 'Bạn có chắc chắn muốn xóa người dùng này?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = 'delete-user?id=' + userId;
+            }
+        });
+    }
+
     <% String success = (String) session.getAttribute("loginSuccess");
+       String deleteSuccess = (String) session.getAttribute("success");
        if (success != null) {
            session.removeAttribute("loginSuccess");
     %>
     Swal.fire({
         icon: 'success',
         title: '<%= success %>',
+        showConfirmButton: false,
+        timer: 2000
+    });
+    <% } else if (deleteSuccess != null) {
+         session.removeAttribute("success");
+    %>
+    Swal.fire({
+        icon: 'success',
+        title: '<%= deleteSuccess %>',
         showConfirmButton: false,
         timer: 2000
     });

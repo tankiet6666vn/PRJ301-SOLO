@@ -241,10 +241,35 @@ public boolean deleteUser(int userID) {
         ps.setInt(1, userID);
         return ps.executeUpdate() > 0;
     } catch (SQLException e) {
-        e.printStackTrace();
+        System.err.println("❌ Lỗi deleteUser: " + e.getMessage());
         return false;
     }
 }
+public User getByUsername(String username) {
+    String sql = "SELECT * FROM Users WHERE Username = ?";
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setString(1, username);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            User user = new User();
+            user.setUserID(rs.getInt("UserID"));
+            user.setUsername(rs.getString("Username"));
+            user.setPasswordHash(rs.getString("PasswordHash"));
+            user.setFullName(rs.getString("FullName"));
+            user.setEmail(rs.getString("Email"));
+            user.setDepartmentID(rs.getInt("DepartmentID"));
+            user.setRoleID(rs.getInt("RoleID"));
+            user.setSecurityQuestion(rs.getString("SecurityQuestion"));
+            user.setSecurityAnswer(rs.getString("SecurityAnswer"));
+            return user;
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return null;
+}
+
+
 
 
 

@@ -1,5 +1,6 @@
 package controller;
 
+import dao.ActivityLogDAO;
 import dao.UserDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -33,6 +34,10 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
 
+            // ✅ Ghi log khi đăng nhập thành công
+            ActivityLogDAO logDAO = new ActivityLogDAO();
+            logDAO.insertLog(user.getUserID(), "Đăng nhập", "Đăng nhập thành công với email: " + user.getEmail());
+
             // ✅ Gửi thông báo đăng nhập thành công sang Menu.jsp
             session.setAttribute("loginSuccess", "Chào mừng " + user.getFullName() + "!");
             response.sendRedirect("view/Menu.jsp");
@@ -42,4 +47,3 @@ public class LoginServlet extends HttpServlet {
         }
     }
 }
-

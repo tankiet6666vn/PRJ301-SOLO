@@ -1,5 +1,6 @@
 package controller;
 
+import dao.ActivityLogDAO;
 import dao.LeaveRequestDAO;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
@@ -22,6 +23,13 @@ public class MyLeaveServlet extends HttpServlet {
             response.sendRedirect("Login.jsp");
             return;
         }
+
+        // ✅ Ghi log: nhân viên xem đơn nghỉ của chính mình
+        new ActivityLogDAO().insertLog(
+            user.getUserID(),
+            "Xem đơn nghỉ cá nhân",
+            "Nhân viên ID: " + user.getUserID() + " xem danh sách đơn nghỉ của mình"
+        );
 
         LeaveRequestDAO dao = new LeaveRequestDAO();
         List<LeaveRequest> allRequests = dao.getByUser(user.getUserID());

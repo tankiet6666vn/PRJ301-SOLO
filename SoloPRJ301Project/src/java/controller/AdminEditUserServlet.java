@@ -1,5 +1,6 @@
 package controller;
 
+import dao.ActivityLogDAO;
 import dao.DepartmentDAO;
 import dao.UserDAO;
 import jakarta.servlet.ServletException;
@@ -62,6 +63,18 @@ public class AdminEditUserServlet extends HttpServlet {
 
         if (updated) {
             request.setAttribute("success", "Cập nhật người dùng thành công!");
+
+            // ✅ Ghi log: admin chỉnh sửa thông tin người dùng
+            HttpSession session = request.getSession();
+            User admin = (User) session.getAttribute("user");
+            if (admin != null) {
+                new ActivityLogDAO().insertLog(
+                    admin.getUserID(),
+                    "Cập nhật người dùng",
+                    "Admin cập nhật user ID: " + userID + ", họ tên: " + fullName
+                );
+            }
+
         } else {
             request.setAttribute("error", "Cập nhật thất bại!");
         }

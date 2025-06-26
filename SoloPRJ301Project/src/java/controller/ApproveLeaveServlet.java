@@ -1,5 +1,6 @@
 package controller;
 
+import dao.ActivityLogDAO;
 import dao.LeaveRequestDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -36,14 +37,22 @@ public class ApproveLeaveServlet extends HttpServlet {
             LeaveRequestDAO dao = new LeaveRequestDAO();
             boolean updated = dao.updateRequestStatus(requestID, status, approver.getUserID());
 
-            // ✅ Gán thông báo nếu cần
+            // ✅ Ghi log nếu cập nhật thành công
             if (updated) {
                 session.setAttribute("success", "Cập nhật trạng thái thành công!");
+
+                String actionText = status.equals("Approved") ? "Duyệt đơn nghỉ" : "Từ chối đơn nghỉ";
+                String detailText = "Đơn ID: " + requestID + ", trạng thái: " + status;
+                new ActivityLogDAO().insertLog(
+                    approver.getUserID(),
+                    actionText,
+                    detailText
+                );
             } else {
                 session.setAttribute("error", "Không thể cập nhật trạng thái.");
             }
 
-            // ✅ CHUYỂN LẠI TRANG DỰA VÀO ROLE
+            // ✅ Chuyển trang theo vai trò
             if (approver.getRoleID() == 1) {
                 response.sendRedirect(request.getContextPath() + "/admin-leave-list");
             } else if (approver.getRoleID() == 2) {

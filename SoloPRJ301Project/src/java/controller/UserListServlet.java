@@ -1,5 +1,6 @@
 package controller;
 
+import dao.ActivityLogDAO;
 import dao.UserDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -25,6 +26,14 @@ public class UserListServlet extends HttpServlet {
             return;
         }
 
+        // ✅ Ghi log truy cập danh sách người dùng
+        new ActivityLogDAO().insertLog(
+            loginUser.getUserID(),
+            "Xem danh sách người dùng",
+            "Admin xem danh sách người dùng" +
+                (request.getParameter("search") != null ? " với từ khóa: " + request.getParameter("search") : "")
+        );
+
         // ✅ Lấy tham số tìm kiếm (nếu có)
         String search = request.getParameter("search");
         if (search == null) search = "";
@@ -43,7 +52,7 @@ public class UserListServlet extends HttpServlet {
 
         // ✅ Lấy danh sách người dùng từ DB
         UserDAO dao = new UserDAO();
-        List<User> allUsers = dao.getAllUsers(); // Hoặc dao.searchUsers(search) nếu có hàm riêng
+        List<User> allUsers = dao.getAllUsers();
 
         // ✅ Lọc theo tên/email (tìm kiếm đơn giản)
         List<User> filteredUsers = new ArrayList<>();

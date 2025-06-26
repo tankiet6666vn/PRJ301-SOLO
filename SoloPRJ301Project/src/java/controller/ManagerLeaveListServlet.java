@@ -1,5 +1,6 @@
 package controller;
 
+import dao.ActivityLogDAO;
 import dao.LeaveRequestDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -23,6 +24,13 @@ public class ManagerLeaveListServlet extends HttpServlet {
             response.sendRedirect("Login.jsp");
             return;
         }
+
+        // ✅ Ghi log khi manager vào danh sách đơn
+        new ActivityLogDAO().insertLog(
+            manager.getUserID(),
+            "Xem danh sách đơn nghỉ",
+            "Manager phòng ban ID " + manager.getDepartmentID()
+        );
 
         int departmentId = manager.getDepartmentID();
         LeaveRequestDAO dao = new LeaveRequestDAO();
@@ -66,5 +74,3 @@ public class ManagerLeaveListServlet extends HttpServlet {
         request.getRequestDispatcher("view/ManagerLeaveList.jsp").forward(request, response);
     }
 }
-
-

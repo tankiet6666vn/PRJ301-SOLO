@@ -10,59 +10,69 @@
     <link href="<%= request.getContextPath() %>/assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="<%= request.getContextPath() %>/assets/css/style.min.css" rel="stylesheet" />
 
-    <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            overflow: hidden;
-        }
+ <style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        overflow: hidden;
+    }
 
-        .video-bg {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: 0;
-        }
+    .video-bg {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+    }
 
-        .overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            z-index: 1;
-        }
+    .overlay {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        z-index: 1;
+    }
 
-        .signup-wrapper {
-            position: relative;
-            z-index: 2;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 30px 15px;
-        }
+    .signup-wrapper {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 30px 15px;
+    }
 
-        .login-page {
-            border-radius: 1rem;
-        }
+    .login-page {
+        border-radius: 1rem;
+    }
 
-        .btn-primary {
-            background-color: #dc3545;
-            border: none;
-        }
+    input.form-control,
+    select.form-control,
+    .form-check-input,
+    .btn,
+    .alert {
+        border-radius: 0.75rem !important;
+    }
 
-        .btn-primary:hover {
-            background-color: #bb2d3b;
-        }
+    .btn-primary {
+        background-color: #dc3545;
+        border: none;
+        border-radius: 0.75rem;
+    }
 
-        .alert {
-            border-radius: 0.5rem;
-        }
-    </style>
+    .btn-primary:hover {
+        background-color: #bb2d3b;
+    }
+
+    .alert {
+        border-radius: 0.75rem;
+    }
+</style>
+
 </head>
 <body>
 

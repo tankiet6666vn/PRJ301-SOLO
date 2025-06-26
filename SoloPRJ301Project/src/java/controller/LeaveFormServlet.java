@@ -1,5 +1,6 @@
 package controller;
 
+import dao.ActivityLogDAO;
 import dao.LeaveTypeDAO;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
@@ -20,6 +21,13 @@ public class LeaveFormServlet extends HttpServlet {
             response.sendRedirect("Login.jsp");
             return;
         }
+
+        // ✅ Ghi log: mở form gửi đơn nghỉ
+        new ActivityLogDAO().insertLog(
+            user.getUserID(),
+            "Mở form gửi đơn nghỉ",
+            "Nhân viên ID " + user.getUserID() + " mở trang RequestLeave.jsp"
+        );
 
         LeaveTypeDAO dao = new LeaveTypeDAO();
         List<LeaveType> types = dao.getAll();

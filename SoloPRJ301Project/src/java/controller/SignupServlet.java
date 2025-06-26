@@ -1,5 +1,6 @@
 package controller;
 
+import dao.ActivityLogDAO;
 import dao.UserDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -50,6 +51,17 @@ public class SignupServlet extends HttpServlet {
         // Thêm vào database
         if (userDao.insert(newUser)) {
             request.setAttribute("successMessage", "Đăng ký thành công! Hãy đăng nhập.");
+
+            // ✅ Ghi log: đăng ký thành công
+            User createdUser = userDao.getByUsername(username); // cần lấy userID sau insert
+            if (createdUser != null) {
+                new ActivityLogDAO().insertLog(
+                    createdUser.getUserID(),
+                    "Đăng ký tài khoản",
+                    "Tài khoản '" + username + "' đã đăng ký thành công."
+                );
+            }
+
         } else {
             request.setAttribute("errorMessage", "Đăng ký thất bại! Vui lòng thử lại.");
         }

@@ -1,5 +1,6 @@
 package controller;
 
+import dao.ActivityLogDAO;
 import dao.UserDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -34,7 +35,6 @@ public class UpdateProfileServlet extends HttpServlet {
         // ✅ Kiểm tra email đã tồn tại bởi user khác
         if (dao.isEmailTakenByOthers(currentUser.getUserID(), email)) {
             request.setAttribute("emailExists", true);
-
             request.getRequestDispatcher("/view/UserProfile.jsp").forward(request, response);
             return;
         }
@@ -46,6 +46,14 @@ public class UpdateProfileServlet extends HttpServlet {
         if (dao.updateUserProfile(currentUser)) {
             request.setAttribute("success", true);
             session.setAttribute("user", currentUser); // cập nhật session
+
+            // ✅ Ghi log cập nhật hồ sơ
+            new ActivityLogDAO().insertLog(
+                currentUser.getUserID(),
+                "Cập nhật hồ sơ",
+                "Người dùng '" + currentUser.getUsername() + "' đã cập nhật hồ sơ cá nhân."
+            );
+
         } else {
             request.setAttribute("message", "Cập nhật thất bại. Vui lòng thử lại.");
         }
