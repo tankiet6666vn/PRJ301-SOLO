@@ -42,6 +42,7 @@
             color: white;
             box-shadow: 0 6px 15px rgba(0, 86, 179, 0.3);
         }
+        
     </style>
 </head>
 <body>
@@ -72,7 +73,7 @@
                     <h4 class="display-4 fw-bold text-white title-dark mt-3 mb-4">CHÀO MỪNG TỚI WEBSITE ĐƠN XIN NGHỈ PHÉP </h4>
                         <p class="para-desc text-white-50 mb-0">Toàn bộ template đều được lấy trên cms của Đại Học FPT + thêm chút xào nấu của CHAT GPT =))</p>
                     <div class="mt-4 pt-2">
-                        <a href="booking-appointment.html" class="btn btn-primary">Tiến vào</a>
+                        <a href="<%= request.getContextPath() %>/view/signup.jsp" class="btn btn-primary">Đăng Kí</a>
                         
                     </div>
                 </div>

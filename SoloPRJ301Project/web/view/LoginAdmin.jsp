@@ -65,9 +65,35 @@
             font-weight: bold;
             font-size: 1.2rem;
         }
+         .home-btn {
+            position: fixed;
+            top: 20px;
+            left: 30px;
+            z-index: 100;
+        }
+
+        .home-btn a {
+            display: inline-block;
+            padding: 8px 20px;
+            background-color: #0d6efd;
+            color: #fff;
+            border-radius: 30px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
+        }
+
+        .home-btn a:hover {
+            background-color: #0b5ed7;
+            box-shadow: 0 6px 18px rgba(13, 110, 253, 0.35);
+        }
     </style>
 </head>
 <body>
+       <div class="home-btn">
+    <a href="<%= request.getContextPath() %>/view/Homepage.jsp"> Home</a>
+</div>
 
 <!-- 🔥 Video nền -->
 <video autoplay muted loop playsinline id="bg-video">
@@ -82,7 +108,7 @@
             <div class="col-lg-5 col-md-8">
                 <div class="card login-page bg-white shadow mt-4 border-0">
                     <div class="card-body">
-                        <h4 class="text-center">Admin Sign In</h4>  
+                        <h4 class="text-center">Đăng Nhập Admin</h4>  
                         <form action="<%= request.getContextPath() %>/loginAdmin" method="post" class="login-form mt-4">
                             <div class="mb-3">
                                 <label class="form-label">Email <span class="text-danger">*</span></label>
@@ -91,15 +117,15 @@
 
                             <div class="mb-3">
                                 <label class="form-label">Password <span class="text-danger">*</span></label>
-                                <input type="password" class="form-control" name="password" placeholder="Password" required>
+                                <input type="password" class="form-control" name="password" placeholder="Mật Khẩu" required>
                             </div>
 
                             <div class="d-grid">
-                                <button class="btn btn-danger">Sign in</button>
+                                <button class="btn btn-danger">Đăng Nhập</button>
                             </div>
 
                             <div class="text-center mt-3">
-                                <a href="<%= request.getContextPath() %>/view/Login.jsp" class="btn btn-outline-secondary">Login as User</a>
+                                <a href="<%= request.getContextPath() %>/view/Login.jsp" class="btn btn-outline-secondary">Đăng nhập Người Dùng</a>
                             </div>
 
                             <c:if test="${not empty errorMessage}">

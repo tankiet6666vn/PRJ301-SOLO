@@ -121,7 +121,7 @@
             <div class="col-lg-5 col-md-8">
                 <div class="card login-page bg-white shadow mt-4 border-0">
                     <div class="card-body">
-                        <h4 class="text-center">Sign In</h4>
+                        <h4 class="text-center">Đăng Nhập</h4>
                         <form action="<%= request.getContextPath() %>/login" method="post" class="login-form mt-4">
                             <div class="mb-3">
                                 <label class="form-label">Email <span class="text-danger">*</span></label>
@@ -129,20 +129,20 @@
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label">Password <span class="text-danger">*</span></label>
-                                <input type="password" class="form-control" name="password" placeholder="Password" required>
+                                <label class="form-label">Mật Khẩu <span class="text-danger">*</span></label>
+                                <input type="password" class="form-control" name="password" placeholder="Mật khẩu" required>
                             </div>
 
                             <div class="d-grid gap-2 d-md-flex justify-content-md-between">
-                                <button class="btn btn-primary">Sign in</button>
-                                <a href="<%= request.getContextPath() %>/view/LoginAdmin.jsp" class="btn btn-outline-danger">Login as Admin</a>
+                                <button class="btn btn-primary">Đăng Nhập</button>
+                                <a href="<%= request.getContextPath() %>/view/LoginAdmin.jsp" class="btn btn-outline-danger">Đăng Nhập Admin</a>
                             </div>
 
                             <div class="text-center mt-3">
-                                <p><small class="text-dark me-2">Don't have an account?</small>
-                                    <a href="<%= request.getContextPath() %>/view/signup.jsp" class="text-dark fw-bold">Sign Up</a></p>
+                                <p><small class="text-dark me-2">Chưa có tài khoản ?</small>
+                                    <a href="<%= request.getContextPath() %>/view/signup.jsp" class="text-dark fw-bold">Đăng Kí</a></p>
 
-                                <a href="<%= request.getContextPath() %>/view/Recover.jsp" class="btn btn-outline-primary mt-2">Recover Password</a>
+                                <a href="<%= request.getContextPath() %>/view/Recover.jsp" class="btn btn-outline-primary mt-2">Khôi Phục Mật Khẩu</a>
                             </div>
 
                             <c:if test="${not empty errorMessage}">

@@ -80,9 +80,35 @@
             background-color: #6c757d;
             color: #fff;
         }
+          .home-btn {
+            position: fixed;
+            top: 20px;
+            left: 30px;
+            z-index: 100;
+        }
+
+        .home-btn a {
+            display: inline-block;
+            padding: 8px 20px;
+            background-color: #0d6efd;
+            color: #fff;
+            border-radius: 30px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
+        }
+
+        .home-btn a:hover {
+            background-color: #0b5ed7;
+            box-shadow: 0 6px 18px rgba(13, 110, 253, 0.35);
+        }
     </style>
 </head>
 <body>
+       <div class="home-btn">
+    <a href="<%= request.getContextPath() %>/view/Homepage.jsp"> Home</a>
+</div>
 
 <!-- 🎥 VIDEO BACKGROUND -->
 <video autoplay muted loop class="video-bg">
@@ -97,17 +123,17 @@
                 
                 <div class="card shadow mt-4 border-0">
                     <div class="card-body">
-                        <h4 class="text-center">Recover Password</h4>
+                        <h4 class="text-center">Khôi Phục Mật Khẩu</h4>
                         <form action="<%= request.getContextPath() %>/recover" method="post" class="login-form mt-4">
                             <div class="mb-3">
-                                <label class="form-label">Username <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="username" placeholder="Enter your username" required>
+                                <label class="form-label">Tên Đăng Nhập<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="username" placeholder=" UserName Của Bạn" required>
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label">Security Question <span class="text-danger">*</span></label>
+                                <label class="form-label">Câu Hỏi Bảo Mật <span class="text-danger">*</span></label>
                                 <select class="form-control" name="question" required>
-                                    <option value="">-- Select a question --</option>
+                                    <option value="">-- Chọn Câu Hỏi --</option>
                                     <option value="What is your pet’s name?">What is your pet’s name?</option>
                                     <option value="What is your mother’s maiden name?">What is your mother’s maiden name?</option>
                                     <option value="What is your favorite color?">What is your favorite color?</option>
@@ -115,16 +141,16 @@
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label">Answer <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="answer" placeholder="Enter your answer" required>
+                                <label class="form-label">Câu Trả Lời <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="answer" placeholder="Câu Trả Lời Của Bạn" required>
                             </div>
 
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-primary">Verify</button>
+                                <button type="submit" class="btn btn-primary">Xác Thực</button>
                             </div>
 
                             <div class="text-center mt-3">
-                                <a href="<%= request.getContextPath() %>/view/Login.jsp" class="btn btn-outline-secondary">Back to Login</a>
+                                <a href="<%= request.getContextPath() %>/view/Login.jsp" class="btn btn-outline-secondary">Trở Lại Đăng Nhập</a>
                             </div>
 
                             <c:if test="${not empty error}">

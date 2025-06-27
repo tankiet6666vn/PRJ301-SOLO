@@ -71,10 +71,36 @@
     .alert {
         border-radius: 0.75rem;
     }
+     .home-btn {
+            position: fixed;
+            top: 20px;
+            left: 30px;
+            z-index: 100;
+        }
+
+        .home-btn a {
+            display: inline-block;
+            padding: 8px 20px;
+            background-color: #0d6efd;
+            color: #fff;
+            border-radius: 30px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
+        }
+
+        .home-btn a:hover {
+            background-color: #0b5ed7;
+            box-shadow: 0 6px 18px rgba(13, 110, 253, 0.35);
+        }
 </style>
 
 </head>
 <body>
+    <div class="home-btn">
+    <a href="<%= request.getContextPath() %>/view/Homepage.jsp"> Home</a>
+</div>
 
 <!-- 🎥 VIDEO BACKGROUND -->
 <video autoplay muted loop class="video-bg">
@@ -89,7 +115,7 @@
                 
                 <div class="card login-page bg-white shadow mt-4 rounded border-0">
                     <div class="card-body">
-                        <h4 class="text-center">Sign Up</h4>
+                        <h4 class="text-center">Đăng Kí</h4>
 
                         <c:if test="${not empty successMessage}">
                             <div class="alert alert-success text-center mt-3">${successMessage}</div>
@@ -103,37 +129,37 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Full Name <span class="text-danger">*</span></label>
+                                        <label class="form-label">Họ Tên <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" name="fullName" placeholder="Full Name" required>
                                     </div>
                                 </div>
 
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Username <span class="text-danger">*</span></label>
+                                        <label class="form-label">Tên Đăng Nhập <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" name="username" placeholder="Username" required>
                                     </div>
                                 </div>
 
                                 <div class="col-md-12">
                                     <div class="mb-3">
-                                        <label class="form-label">Your Email <span class="text-danger">*</span></label>
+                                        <label class="form-label"> Email <span class="text-danger">*</span></label>
                                         <input type="email" class="form-control" name="email" placeholder="Email" required>
                                     </div>
                                 </div>
 
                                 <div class="col-md-12">
                                     <div class="mb-3">
-                                        <label class="form-label">Password <span class="text-danger">*</span></label>
-                                        <input type="password" class="form-control" name="password" placeholder="Password" required>
+                                        <label class="form-label">Mật Khẩu <span class="text-danger">*</span></label>
+                                        <input type="password" class="form-control" name="password" placeholder="Mật Khẩu" required>
                                     </div>
                                 </div>
 
                                 <div class="col-md-12">
                                     <div class="mb-3">
-                                        <label class="form-label">Security Question <span class="text-danger">*</span></label>
+                                        <label class="form-label">Câu Hỏi Bảo Mật <span class="text-danger">*</span></label>
                                         <select name="securityQuestion" class="form-control" required>
-                                            <option value="">-- Select a question --</option>
+                                            <option value="">-- Chọn Câu Hỏi --</option>
                                             <option value="What is your favorite color?">What is your favorite color?</option>
                                             <option value="What is your pet's name?">What is your pet's name?</option>
                                             <option value="What is your mother's maiden name?">What is your mother's maiden name?</option>
@@ -143,8 +169,8 @@
 
                                 <div class="col-md-12">
                                     <div class="mb-3">
-                                        <label class="form-label">Answer <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" name="securityAnswer" placeholder="Your Answer" required>
+                                        <label class="form-label">Câu Trả Lời <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="securityAnswer" placeholder="Câu Trả Lời Của Bạn" required>
                                     </div>
                                 </div>
 
@@ -161,13 +187,13 @@
 
                                 <div class="col-md-12">
                                     <div class="d-grid">
-                                        <button class="btn btn-primary">Register</button>
+                                        <button class="btn btn-primary">Đăng Kí</button>
                                     </div>
                                 </div>
 
                                 <div class="text-center mt-3">
-                                    <small class="text-dark">Already have an account?</small>
-                                    <a href="<%= request.getContextPath() %>/view/Login.jsp" class="text-dark fw-bold">Sign in</a>
+                                    <small class="text-dark">Đã có tài khoản?</small>
+                                    <a href="<%= request.getContextPath() %>/view/Login.jsp" class="text-dark fw-bold">Đăng Nhập</a>
                                 </div>
                             </div>
                         </form>
